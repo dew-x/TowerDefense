@@ -96,6 +96,10 @@ TowerDefense.prototype.addLevel = function (key, data) {
     });
 }
 
+TowerDefense.prototype._attachEvents = function () {
+
+}
+
 TowerDefense.prototype._parseData = function () {
     var functions = {
         projectyle: "_insertProjectyle",
@@ -130,10 +134,6 @@ TowerDefense.prototype._parseData = function () {
             }
         }
     }
-}
-
-TowerDefense.prototype._attachEvents = function () {
-
 }
 
 TowerDefense.prototype._insertElement = function (element, target, parent, dependencies, errors) {
@@ -173,29 +173,57 @@ TowerDefense.prototype._insertProjectyle = function (element, errors) {
 }
 
 TowerDefense.prototype._insertEnemy = function (element, errors) {
-
+    var dependencies = {
+    }
+    var parent = enemyArchetype;
+    var target = this.data.enemies;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
 TowerDefense.prototype._insertGfx = function (element, errors) {
-
+    var dependencies = {
+    }
+    var parent = gfxArchetype;
+    var target = this.data.gfxs;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
 TowerDefense.prototype._insertSfx = function (element, errors) {
-
+    var dependencies = {
+    }
+    var parent = sfxArchetype;
+    var target = this.data.sfxs;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
 TowerDefense.prototype._insertWave = function (element, errors) {
-
+    var dependencies = {
+    }
+    var parent = waveArchetype;
+    var target = this.data.waves;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
 TowerDefense.prototype._insertMap = function (element, errors) {
-
+    var dependencies = {
+    }
+    var parent = mapArchetype;
+    var target = this.data.maps;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
-TowerDefense.prototype._insertTower = function (element) {
-
+TowerDefense.prototype._insertTower = function (element, errors) {
+    var dependencies = {
+    }
+    var parent = towerArchetype;
+    var target = this.data.towers;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
 
-TowerDefense.prototype._insertLevel = function (element) {
-
+TowerDefense.prototype._insertLevel = function (element, errors) {
+    var dependencies = {
+    }
+    var parent = levelArchetype;
+    var target = this.data.levels;
+    return this._insertElement(element, target, parent, dependencies, errors);
 }
