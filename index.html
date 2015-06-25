@@ -4,12 +4,14 @@
 	<title>TD</title>
 	<script type="text/javascript" src="td/import.js"></script>
 </head>
-<body>
+<body onload="onLoad()">
 <canvas id="td"></canvas>
 <script type="text/javascript">
+function onLoad() {
     var td=new TowerDefense("td",800,600);
     td.loadDefaults();
     td.play();
+}
 </script>
 </body>
 </html>

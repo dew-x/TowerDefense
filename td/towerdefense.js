@@ -29,6 +29,7 @@ TowerDefense.prototype.play = function() {
     } catch (e) {
         console.log(e);
     }
+    console.log(this.data);
 }
 
 TowerDefense.prototype.addProjectyle = function (key, data) {
@@ -97,14 +98,14 @@ TowerDefense.prototype.addLevel = function (key, data) {
 
 TowerDefense.prototype._parseData = function () {
     var functions = {
-        projectyle: this._insertProjectyle,
-        enemy: this._insertEnemy,
-        gfx: this._insertGfx,
-        sfx: this._insertSfx,
-        wave: this._insertWave,
-        map: this._insertMap,
-        tower: this._insertTower,
-        level: this._insertLevel,
+        projectyle: "_insertProjectyle",
+        enemy: "_insertEnemy",
+        gfx: "_insertGfx",
+        sfx: "_insertSfx",
+        wave: "_insertWave",
+        map: "_insertMap",
+        tower: "_insertTower",
+        level: "_insertLevel",
     }
     var size=this._insert.length;
     var i=0;
@@ -112,7 +113,7 @@ TowerDefense.prototype._parseData = function () {
     while (this._insert.length > 0) {
         var element = this._insert.shift();
         if (functions.hasOwnProperty(element.type)) {
-            if (!functions[element.type](element,errors)) {
+            if (!this[functions[element.type]](element,errors)) {
                 this._insert.push(element);    
             }    
         } else {
@@ -149,7 +150,7 @@ TowerDefense.prototype._insertElement = function (element, target, parent, depen
     }
     var obj = null;
     try {
-        obj = parent(data);
+        obj = new parent(data);
     } catch (e) {
         errors.push('Error in "'+element.type+'['+element.key+']": '+e);
         return false;
@@ -168,7 +169,7 @@ TowerDefense.prototype._insertProjectyle = function (element, errors) {
     }
     var parent = projectyleArchetype;
     var target = this.data.projectyles;
-    this._insertElement(element, target, parent, dependencies, errors);    
+    return this._insertElement(element, target, parent, dependencies, errors);    
 }
 
 TowerDefense.prototype._insertEnemy = function (element, errors) {
