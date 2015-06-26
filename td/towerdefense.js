@@ -1,3 +1,6 @@
+// nasty fix for eventlisteners
+var game = null;
+
 function TowerDefense(canvasID, width, height) {
     this.canvasID = canvasID;
     this.width = width;
@@ -36,8 +39,9 @@ TowerDefense.prototype.loadDefaults = function() {
 TowerDefense.prototype.play = function() {
     try {
         this._parseData();
+        game = new Game(this.data, this.canvasID, this.width, this.height);
         this._attachEvents();
-        console.log(this.data);
+        game.play();
     } catch (e) {
         console.log(e);
     }
@@ -108,7 +112,53 @@ TowerDefense.prototype.addLevel = function(key, data) {
 }
 
 TowerDefense.prototype._attachEvents = function() {
+    var canvas = document.getElementById(this.canvasID);
+    // mouse events
+    canvas.addEventListener("mousedown", function(event) {
+        game._mousedown(event)
+    });
+    canvas.addEventListener("mousemove", function(event) {
+        game._mousemove(event)
+    });
+    canvas.addEventListener("mouseup", function(event) {
+        game._mouseup(event)
+    });
+    canvas.addEventListener("mousewheel", function(event) {
+        game._mousewheel(event)
+    });
+    // touch events
+    canvas.addEventListener("touchstart", function(event) {
+        game._mousedown(event)
+    });
+    canvas.addEventListener("touchmove", function(event) {
+        game._mousemove(event)
+    });
+    canvas.addEventListener("touchend", function(event) {
+        game._mouseup(event)
+    });
+    canvas.addEventListener("touchcancel", function(event) {
+        game._mouseup(event)
+    });
+    canvas.addEventListener("touchleave", function(event) {
+        game._mouseup(event)
+    });
+    // keyboard
+    document.addEventListener("keydown", function(event) {
+        game._keydown(event)
+    });
+    document.addEventListener("keyup", function(event) {
+        game._keyup(event)
+    });
+    // globals
+    window.addEventListener("resize", function(event) {
+        game._resize()
+    });
 
+    function loop(time) {
+        game.loop(time);
+        window.requestAnimationFrame(loop);
+    }
+    loop();
 }
 
 TowerDefense.prototype._parseData = function() {
@@ -153,14 +203,14 @@ TowerDefense.prototype._insertElement = function(element, target, parent, depend
         if (dependencies.hasOwnProperty(key) && data.hasOwnProperty(key)) {
             if (Array.isArray(data[key])) {
                 for (var i = 0; i < data[key].length; ++i) {
-                	if (typeof data[key][i].type != 'object') {
-                		if (dependencies[key].hasOwnProperty(data[key][i].type)) {
-		                    data[key][i].type = dependencies[key][data[key][i].type];
-		                } else {
-		                    errors.push('Missing dependence "' + key + '[' + data[key][i].type + ']" for "' + element.type + '[' + element.key + ']"');
-		                    return false;
-		                }	
-                	}
+                    if (typeof data[key][i].type != 'object') {
+                        if (dependencies[key].hasOwnProperty(data[key][i].type)) {
+                            data[key][i].type = dependencies[key][data[key][i].type];
+                        } else {
+                            errors.push('Missing dependence "' + key + '[' + data[key][i].type + ']" for "' + element.type + '[' + element.key + ']"');
+                            return false;
+                        }
+                    }
                 }
             } else if (typeof data[key] != 'object') {
                 if (dependencies[key].hasOwnProperty(data[key])) {
