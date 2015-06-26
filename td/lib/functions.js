@@ -18,7 +18,7 @@ function _checkRange(value,range) {
             throw "Expecting value of type \"" + range + "\"";
         }
     } else {    
-        if (typeof range[0] == "string") {
+        if (typeof range[0] != "object") {
             if (range.indexOf(value)==-1) {
                 throw "Unknown value \"" + value + "\" expecting [" + range.join(", ") + "]";
             } 

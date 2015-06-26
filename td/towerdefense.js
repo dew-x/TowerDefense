@@ -9,7 +9,8 @@ function TowerDefense(canvasID, width, height) {
         maps: {},
         levels: {},
         gfxs: {},
-        sfxs: {},    
+        sfxs: {},
+        towers: {},    
     }
     this._insert = [];
 }
@@ -26,10 +27,10 @@ TowerDefense.prototype.play = function() {
     try {
         this._parseData();
         this._attachEvents();
+        console.log(this.data);
     } catch (e) {
         console.log(e);
     }
-    console.log(this.data);
 }
 
 TowerDefense.prototype.addProjectyle = function (key, data) {
@@ -139,7 +140,7 @@ TowerDefense.prototype._parseData = function () {
 TowerDefense.prototype._insertElement = function (element, target, parent, dependencies, errors) {
     var data = element.data;
     for (var key in dependencies) {
-        if (dependencies.hasOwnProperty(key) && data.hasOwnProperty(key) && data[key]!=null) {
+        if (dependencies.hasOwnProperty(key) && data.hasOwnProperty(key) && typeof data[key]!='object') {
             if (dependencies[key].hasOwnProperty(data[key])) {
                 data[key]=dependencies[key][data[key]];
             } else {
@@ -152,7 +153,7 @@ TowerDefense.prototype._insertElement = function (element, target, parent, depen
     try {
         obj = new parent(data);
     } catch (e) {
-        errors.push('Error in "'+element.type+'['+element.key+']": '+e);
+        errors.push('Error in "'+element.type+'['+element.key+']" -> '+e);
         return false;
     }
     target[element.key]=obj;
@@ -214,6 +215,9 @@ TowerDefense.prototype._insertMap = function (element, errors) {
 
 TowerDefense.prototype._insertTower = function (element, errors) {
     var dependencies = {
+        projectyle: this.data.projectyles,
+        gfx: this.data.gfxs,
+        placesfx: this.data.sfxs,
     }
     var parent = towerArchetype;
     var target = this.data.towers;
