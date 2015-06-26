@@ -123,24 +123,24 @@ TowerDefense.prototype._attachEvents = function() {
     canvas.addEventListener("mouseup", function(event) {
         game._mouseup(event)
     });
-    canvas.addEventListener("mousewheel", function(event) {
+    canvas.addEventListener("wheel", function(event) {
         game._mousewheel(event)
     });
     // touch events
     canvas.addEventListener("touchstart", function(event) {
-        game._mousedown(event)
+        game._touchdown(event)
     });
     canvas.addEventListener("touchmove", function(event) {
-        game._mousemove(event)
+        game._touchmove(event)
     });
     canvas.addEventListener("touchend", function(event) {
-        game._mouseup(event)
+        game._touchup(event)
     });
     canvas.addEventListener("touchcancel", function(event) {
-        game._mouseup(event)
+        game._touchup(event)
     });
     canvas.addEventListener("touchleave", function(event) {
-        game._mouseup(event)
+        game._touchup(event)
     });
     // keyboard
     document.addEventListener("keydown", function(event) {
