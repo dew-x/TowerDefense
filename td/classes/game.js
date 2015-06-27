@@ -43,6 +43,7 @@ Game.prototype.loop = function(time) {
         this.currentScene.draw();
     }
     if ((this.currentScene == null || this.currentScene.isCompleted()) && this.scenes[this.sceneQueue[0]].isLoaded()) {
+        console.log(this.sceneQueue[0]);
         this.currentScene = this.scenes[this.sceneQueue.shift()];
     }
 }

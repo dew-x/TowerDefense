@@ -8,10 +8,6 @@ function Loading() {
 
 copy(Loading.prototype, scenePrototype);
 
-Loading.prototype.draw = function() {
-    this.ctx.fillRect(this.width / 2, this.height / 2, this.width / 2, this.height / 2);
-}
-
 Loading.prototype.isCompleted = function() {
     return this.timer > this.loadingMinTime && (this.next == null || this.next.isLoaded());
 }
@@ -27,4 +23,10 @@ Loading.prototype.setContext = function(context) {
 
 Loading.prototype.setNext = function(next) {
     this.next = next;
+}
+
+Loading.prototype.update = function(delta) {
+    if (isNaN(this.timer)) this.timer = 0;
+    this.timer = this.timer + delta;
+    this.gfx["barFront"].setPerc(Math.min(1,this.timer/this.loadingMinTime));
 }
