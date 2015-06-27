@@ -23,7 +23,6 @@ Game.prototype.play = function() {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     for (var key in this.scenes) {
-        console.log(this.scenes[key].setCtx);
         this.scenes[key].setCtx(this.ctx);
         this.scenes[key].setWindow(this.width, this.height);
     }

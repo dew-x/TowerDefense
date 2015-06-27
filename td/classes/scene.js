@@ -16,7 +16,6 @@ var scenePrototype = {
 	update: function (delta) {
 		if (isNaN(this.timer)) this.timer=0;
 		this.timer = this.timer + delta;
-		if (!isNaN(this.timer)) console.log(this.timer);
 	},
 	draw: function () {
 		this.ctx.fillRect(0,0,this.width/2,this.height/2);
