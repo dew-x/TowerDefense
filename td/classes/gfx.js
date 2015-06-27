@@ -1,0 +1,3 @@
+function Gfx(archetype) {
+	
+}

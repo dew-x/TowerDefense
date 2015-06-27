@@ -5,6 +5,7 @@
   "td/lib/compatibility.js",
   // archetypes
   "td/archetypes/enemyArchetype.js",
+  "td/archetypes/gameArchetype.js",
   "td/archetypes/gfxArchetype.js",
   "td/archetypes/levelArchetype.js",
   "td/archetypes/mapArchetype.js",

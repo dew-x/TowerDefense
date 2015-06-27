@@ -14,6 +14,7 @@ function TowerDefense(canvasID, width, height) {
         gfxs: {},
         sfxs: {},
         towers: {},
+        game: null,
     }
     this._insert = [];
 }
@@ -34,25 +35,20 @@ TowerDefense.prototype.loadDefaults = function() {
     this.addTower("tower", {
         projectyle: "missile"
     });
+    this.addGame({});
 }
 
 TowerDefense.prototype.play = function() {
     try {
         this._parseData();
+        console.log(this.data);
         game = new Game(this.data, this.canvasID, this.width, this.height);
-        this._attachEvents();
         game.play();
+        this._attachEvents();
+
     } catch (e) {
         console.log(e);
     }
-}
-
-TowerDefense.prototype.addProjectyle = function(key, data) {
-    this._insert.push({
-        key: key,
-        data: data,
-        type: "projectyle",
-    });
 }
 
 TowerDefense.prototype.addEnemy = function(key, data) {
@@ -60,6 +56,14 @@ TowerDefense.prototype.addEnemy = function(key, data) {
         key: key,
         data: data,
         type: "enemy",
+    });
+}
+
+TowerDefense.prototype.addGame = function(data) {
+    this._insert.push({
+        key: "game",
+        data: data,
+        type: "game",
     });
 }
 
@@ -92,6 +96,14 @@ TowerDefense.prototype.addMap = function(key, data) {
         key: key,
         data: data,
         type: "map",
+    });
+}
+
+TowerDefense.prototype.addProjectyle = function(key, data) {
+    this._insert.push({
+        key: key,
+        data: data,
+        type: "projectyle",
     });
 }
 
@@ -165,6 +177,7 @@ TowerDefense.prototype._parseData = function() {
     var functions = {
         projectyle: "_insertProjectyle",
         enemy: "_insertEnemy",
+        game: "_insertGame",
         gfx: "_insertGfx",
         sfx: "_insertSfx",
         wave: "_insertWave",
@@ -257,6 +270,18 @@ TowerDefense.prototype._insertGfx = function(element, errors) {
     var dependencies = {}
     var parent = gfxArchetype;
     var target = this.data.gfxs;
+    return this._insertElement(element, target, parent, dependencies, errors);
+}
+
+TowerDefense.prototype._insertGame = function(element, errors) {
+    var dependencies = {
+        loadingBg: this.data.gfxs,
+        loadingBarBg: this.data.gfxs,
+        loadingBarFront: this.data.gfxs,
+        loadingsfx: this.data.sfxs,
+    }
+    var parent = gameArchetype;
+    var target = this.data;
     return this._insertElement(element, target, parent, dependencies, errors);
 }
 

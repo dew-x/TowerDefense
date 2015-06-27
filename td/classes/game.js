@@ -10,12 +10,12 @@ function Game(data, canvasID, width, height) {
     this.inputQueue = [];
     this.scenes = {
         loading: new Loading(),
-        menu: new MainMenu(),
+        mainmenu: new MainMenu(),
         inGame: new InGame(),
         endGame: new EndGame(),
     };
     this.currentScene = null;
-    this.sceneQueue = ["loading", "menu"];
+    this.sceneQueue = [];
     this.last = -1;
 }
 
@@ -27,6 +27,10 @@ Game.prototype.play = function() {
         this.scenes[key].setWindow(this.width, this.height);
     }
     this._resize();
+    this.scenes.loading.setContext(this.data);
+    this.scenes.mainmenu.setContext(this.data);
+    this.scenes.loading.setNext(this.scenes.menu);
+    this.sceneQueue = ["loading", "mainmenu"];
 }
 
 Game.prototype.loop = function(time) {
