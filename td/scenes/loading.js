@@ -17,8 +17,7 @@ Loading.prototype.setContext = function(context) {
     this.showHints = context.game.loadingShowHint;
     this.hints = context.game.loadingHints;
     this._addGfx("bg", context.game.loadingBg);
-    this._addGfx("barBg", context.game.loadingBarBg);
-    this._addGfx("barFront", context.game.loadingBarFront);
+    this._addGfx("bar", context.game.loadingBar);
 }
 
 Loading.prototype.setNext = function(next) {
@@ -28,5 +27,5 @@ Loading.prototype.setNext = function(next) {
 Loading.prototype.update = function(delta) {
     if (isNaN(this.timer)) this.timer = 0;
     this.timer = this.timer + delta;
-    this.gfx["barFront"].setPerc(Math.min(1,this.timer/this.loadingMinTime));
+    this.gfx["bar"].setPercentage(Math.min(1,this.timer/this.loadingMinTime));
 }

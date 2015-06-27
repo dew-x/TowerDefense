@@ -1,14 +1,23 @@
 function gfxArchetype(data) {
     var defaults = {
         // values
-        drawFunction: null,
+        mode: "normal",
+        percentage: 1,
         // graphics
-
-        // sounds
-
+        drawFunction: null,
+        path: null,
+        pathBehind: null,
+        pathFront: null,
     }
     var ranges = {
+        mode: ["normal", "button", "text", "bar", "bg"],
+        percentage: [
+            [0, 1]
+        ],
         drawFunction: "function",
+        path: "string",
+        pathBehind: "string",
+        pathFront: "string",
     }
 
     if (checkRanges(data, ranges)) {

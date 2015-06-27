@@ -1,8 +1,5 @@
 function Gfx(archetype) {
-    this.perc = 0;
-    if (archetype.drawFunction != null) {
-        this.draw = archetype.drawFunction;
-    }
+	copy(this,archetype);
 }
 /**
  * Drawing function for a grfic asset
@@ -17,9 +14,21 @@ function Gfx(archetype) {
  * @return      none
  */
 Gfx.prototype.draw = function(ctx, width, height, x0, y0, x1, y1) {
+	if (this.drawFunction==null) {
+		if (this.mode=="normal" || this.mode=="button") {
 
+		} else if (this.mode=="text") {
+
+		} else if (this.mode=="bar") {
+
+		} else if (this.mode=="bg") {
+
+		}
+	} else {
+		this.drawFunction(ctx, width, height, x0, y0, x1, y1);
+	}
 }
 
-Gfx.prototype.setPerc = function(perc) {
-    this.perc = clamp(perc, 0, 1);
+Gfx.prototype.setPercentage = function(perc) {
+    this.percentage = clamp(perc, 0, 1);
 }
