@@ -8,7 +8,15 @@ function Game(data, canvasID, width, height) {
     this.canvas = document.getElementById(this.canvasID);
     this.ctx = this.canvas.getContext("2d");
     this.inputQueue = [];
-    this.scene = "loading";
+    this.scenes = {
+        loading: new Loading(),
+        menu: new MainMenu(),
+        inGame: new InGame(),
+        endGame: new EndGame(),
+    };
+    this.currentScene = null;
+    this.sceneQueue = ["loading", "menu"];
+    this.last = -1;
 }
 
 Game.prototype.play = function() {
@@ -16,9 +24,16 @@ Game.prototype.play = function() {
 }
 
 Game.prototype.loop = function(time) {
-    // process inputQueue
-    if (this.inputQueue.length != 0) {
-        this.inputQueue = [];
+    var delta = 0;
+    if (this.last != -1) delta = time - this.last;
+    this.last = time;
+    if (this.currentScene != null) {
+        this.currentScene.processInput(this.inputQueue);
+        this.currentScene.update(delta);
+        this.currentScene.draw();
+    }
+    if (this.scenes[this.sceneQueue[0]].isLoaded() && (this.currentScene == null || this.currentScene.isCompleted())) {
+        this.currentScene = this.scenes[this.sceneQueue.shift()];
     }
 }
 

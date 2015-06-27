@@ -20,9 +20,15 @@
   "td/classes/map.js",
   "td/classes/player.js",
   "td/classes/projectyle.js",
+  "td/classes/scene.js",
   "td/classes/sfx.js",
   "td/classes/tower.js",
   "td/classes/wave.js",
+  // scenes
+  "td/scenes/endgame.js",
+  "td/scenes/ingame.js",
+  "td/scenes/loading.js",
+  "td/scenes/mainmenu.js",
   // core
   "td/towerdefense.js",
 ])
