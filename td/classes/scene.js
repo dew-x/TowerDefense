@@ -1,27 +1,41 @@
-function Scene() {
-
+var sceneInternals = {
+	ctx: null,
+	width: null,
+	height: null,
+	timer: 0,
 }
 
-Scene.prototype.update = function(delta) {
+var scenePrototype = {
+	setCtx: function(ctx) {
+	    this.ctx = ctx;
+	},
+	setWindow: function(width, height) {
+	    this.width = width;
+	    this.height = height;
+	},
+	update: function (delta) {
+		if (isNaN(this.timer)) this.timer=0;
+		this.timer = this.timer + delta;
+		if (!isNaN(this.timer)) console.log(this.timer);
+	},
+	draw: function () {
+		this.ctx.fillRect(0,0,this.width/2,this.height/2);
+	},
+	processInput: function(input) {
+		while (input.length>0) {
+			var event=input.shift();
+			if (event.type=="end") {
+				console.log(event.x,event.y);
+			}
+		}
+	},
+	isLoaded: function () {
+		return true;
+	},
+	loadingPercentage: function () {
 
-}
-
-Scene.prototype.draw = function() {
-
-}
-
-Scene.prototype.processInput = function(input) {
-
-}
-
-Scene.prototype.isLoaded = function() {
-    return true;
-}
-
-Scene.prototype.loadingPercentage = function() {
-
-}
-
-Scene.prototype.isCompleted = function() {
-    return false;
+	},
+	isCompleted: function () {
+		return false;
+	},
 }

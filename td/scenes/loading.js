@@ -1,19 +1,13 @@
 function Loading() {
-    copySuper(this, new Scene());
+    copy(this, sceneInternals);
 }
 
-Loading.prototype.update = function(delta) {
-
-}
+copy(Loading.prototype,scenePrototype);
 
 Loading.prototype.draw = function() {
-
-}
-
-Loading.prototype.processInput = function(input) {
-
+	this.ctx.fillRect(this.width/2,this.height/2,this.width/2,this.height/2);
 }
 
 Loading.prototype.isCompleted = function() {
-    return false;
+    return this.timer>3000;
 }

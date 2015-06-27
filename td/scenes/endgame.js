@@ -1,3 +1,5 @@
 function EndGame() {
-    copySuper(this, new Scene());
+    copy(this, sceneInternals);
 }
+
+copy(EndGame.prototype,scenePrototype);

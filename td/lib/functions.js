@@ -60,11 +60,3 @@ function copy(target, origin) {
         }
     }
 }
-
-function copySuper(target, origin) {
-    for (var key in origin) {
-        if (!target.hasOwnProperty(key)) {
-            target[key] = origin[key];
-        }
-    }
-}

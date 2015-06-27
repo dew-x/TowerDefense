@@ -20,6 +20,13 @@ function Game(data, canvasID, width, height) {
 }
 
 Game.prototype.play = function() {
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    for (var key in this.scenes) {
+        console.log(this.scenes[key].setCtx);
+        this.scenes[key].setCtx(this.ctx);
+        this.scenes[key].setWindow(this.width, this.height);
+    }
     this._resize();
 }
 
@@ -32,20 +39,21 @@ Game.prototype.loop = function(time) {
         this.currentScene.update(delta);
         this.currentScene.draw();
     }
-    if (this.scenes[this.sceneQueue[0]].isLoaded() && (this.currentScene == null || this.currentScene.isCompleted())) {
+    if ((this.currentScene == null || this.currentScene.isCompleted()) && this.scenes[this.sceneQueue[0]].isLoaded()) {
         this.currentScene = this.scenes[this.sceneQueue.shift()];
     }
 }
 
 Game.prototype._resize = function() {
-    this.width = (this.targetWidth <= 0) ? window.innerWidth : this.targetWidth;
-    this.height = (this.targetHeight <= 0) ? window.innerHeight : this.targetHeight;
-    console.log("Resize: ", this.width, this.height, window)
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
-    this.ctx.fillRect(0, 0, this.width, this.height);
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(0, 0, this.width / 2, this.height / 2);
+    if (this.targetWidth == 0 || this.targetHeight == 0) {
+        this.width = (this.targetWidth <= 0) ? window.innerWidth : this.targetWidth;
+        this.height = (this.targetHeight <= 0) ? window.innerHeight : this.targetHeight;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        for (var key in this.scenes) {
+            this.scenes[key].setWindow(this.width, this.height);
+        }
+    }
 }
 
 Game.prototype._mousedown = function(event) {

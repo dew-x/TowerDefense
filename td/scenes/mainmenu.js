@@ -1,3 +1,5 @@
 function MainMenu() {
-    copySuper(this, new Scene());
+	copy(this, sceneInternals);
 }
+
+copy(MainMenu.prototype,scenePrototype);

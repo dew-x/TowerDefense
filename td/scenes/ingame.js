@@ -1,3 +1,5 @@
 function InGame() {
-    copySuper(this, new Scene());
+	copy(this, sceneInternals);
 }
+
+copy(InGame.prototype,scenePrototype);
