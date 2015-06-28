@@ -13,7 +13,7 @@ function gfxArchetype(data) {
         yAnchor: 0.5,
         width: 1,
         height: 1,
-        ratio: 10,
+        ratio: -1,
         scaleMode: "fill",
         strokeColor: null,
         fillColor: null,
@@ -61,6 +61,7 @@ function gfxArchetype(data) {
             [0, 1]
         ],
         ratio: [
+            [-1,-1],
             [0, 1000]
         ],
         scaleMode: ["fill", "fit", "expand"],

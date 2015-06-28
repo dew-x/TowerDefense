@@ -5,6 +5,7 @@ var sceneInternals = {
     timer: 0,
     gfx: {},
     drawOrder: [],
+    onClick: {},
 }
 
 var scenePrototype = {
@@ -27,11 +28,16 @@ var scenePrototype = {
             this.gfx[this.drawOrder[i]].draw(this.ctx, this.width, this.height, 0, 0, this.width, this.height);
         }
     },
-    processInput: function(input) {
+    processInput: function(input, actions) {
         while (input.length > 0) {
             var event = input.shift();
             if (event.type == "end") {
-                console.log(event.x, event.y);
+                for (var i = this.drawOrder.length - 1; i >= 0; --i) {
+                    var key = this.drawOrder[i];
+                    if (this.onClick.hasOwnProperty(key) && this.gfx[key].isInside(event.x, event.y)) {
+                        actions.push(this.onClick[key]);
+                    }
+                }
             }
         }
     },
@@ -39,15 +45,16 @@ var scenePrototype = {
         return true;
     },
     loadingPercentage: function() {
-
+    	return 1;
     },
     isCompleted: function() {
-        return false;
+        return true;
     },
-    _addGfx: function(key, archetype) {
+    _addGfx: function(key, archetype, onClick) {
         if (!this.gfx.hasOwnProperty(key) && archetype != null) {
             this.gfx[key] = new Gfx(archetype);
             this.drawOrder.push(key);
+            if (typeof onClick !== 'undefined') this.onClick[key] = onClick;
         }
     }
 }

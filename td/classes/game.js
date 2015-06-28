@@ -16,6 +16,7 @@ function Game(data, canvasID, width, height) {
     };
     this.currentScene = null;
     this.sceneQueue = [];
+    this.actionQueue = [];
     this.last = -1;
 }
 
@@ -29,7 +30,7 @@ Game.prototype.play = function() {
     this._resize();
     this.scenes.loading.setContext(this.data);
     this.scenes.mainmenu.setContext(this.data);
-    this.scenes.loading.setNext(this.scenes.menu);
+    this.scenes.loading.setNext(this.scenes.mainmenu);
     this.sceneQueue = ["loading", "mainmenu"];
 }
 
@@ -38,13 +39,28 @@ Game.prototype.loop = function(time) {
     if (this.last != -1) delta = time - this.last;
     this.last = time;
     if (this.currentScene != null) {
-        this.currentScene.processInput(this.inputQueue);
+        this.currentScene.processInput(this.inputQueue, this.actionQueue);
+        this._processActions();
         this.currentScene.update(delta);
         this.currentScene.draw();
     }
-    if ((this.currentScene == null || this.currentScene.isCompleted()) && this.scenes[this.sceneQueue[0]].isLoaded()) {
+    if (this.sceneQueue.length > 0 && (this.currentScene == null || this.currentScene.isCompleted()) && this.scenes[this.sceneQueue[0]].isLoaded()) {
         console.log(this.sceneQueue[0]);
         this.currentScene = this.scenes[this.sceneQueue.shift()];
+    }
+}
+
+Game.prototype._processActions = function() {
+    while (this.actionQueue.length > 0) {
+        var action = this.actionQueue.shift();
+        if (action.action == "playLevel") {
+            this.scenes.loading.setContext(this.data);
+            this.sceneQueue.push("loading");
+            this.scenes.inGame.init(action.param);
+            this.scenes.inGame.setContext(this.data);
+            this.scenes.loading.setNext(this.scenes.inGame);
+            this.sceneQueue.push("inGame");
+        }
     }
 }
 

@@ -38,6 +38,10 @@ function gameArchetype(data) {
             y: 0.9,
             textMargin: 0.2,
         }),
+        mainmenuBg: new gfxArchetype({
+            path: "rectangle",
+            fillColor: "gray",
+        }),
         // sounds
         loadingsfx: null,
     }

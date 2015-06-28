@@ -56,7 +56,13 @@ function checkRanges(obj, ranges) {
 function copy(target, origin) {
     for (var key in origin) {
         if (origin.hasOwnProperty(key)) {
-            target[key] = origin[key];
+            if (typeof origin[key] == 'object') {
+                if (Array.isArray(origin[key])) target[key] = [];
+                else target[key] = {};
+                copy(target[key], origin[key]);
+            } else {
+                target[key] = origin[key];
+            }
         }
     }
 }
@@ -66,5 +72,5 @@ function clamp(value, min, max) {
 }
 
 function randomInt(min, max) {
-    return min+Math.floor(Math.random()*(max-min+1));
+    return min + Math.floor(Math.random() * (max - min + 1));
 }

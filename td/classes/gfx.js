@@ -1,5 +1,6 @@
 function Gfx(archetype) {
     copy(this, archetype);
+    this.bounds = null;
 }
 /**
  * Drawing function for a grfic asset
@@ -41,6 +42,12 @@ Gfx.prototype.drawNormal = function(ctx, width, height) {
     var y = height * this.y;
     var x0 = -w * this.xAnchor;
     var y0 = -h * this.yAnchor;
+    this.bounds = {
+        x: x+x0,
+        y: y+y0,
+        w: w,
+        h: h
+    };
     ctx.save();
     ctx.translate(x, y);
     if (this.alpha != 1) ctx.globalAlpha = this.alpha;
@@ -59,6 +66,27 @@ Gfx.prototype._drawObject = function(obj, ctx, x, y, w, h) {
             ctx.strokeStyle = this.strokeColor;
             ctx.lineWidth = this.border || 1;
             ctx.strokeRect(x, y, w, h);
+        }
+    } else if (obj == "circle") {
+        var w2 = w / 2;
+        var w23 = w * 2 / 3;
+        var h2 = h / 2;
+        var cx = x + w / 2;
+        var cy = y + h / 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - h2);
+        ctx.bezierCurveTo(cx + w23, cy - h2, cx + w23, cy + h2, cx, cy + h2);
+        ctx.bezierCurveTo(cx - w23, cy + h2, cx - w23, cy - h2, cx, cy - h2);
+        ctx.closePath();
+        ctx.stroke();
+        if (this.fillColor != null) {
+            ctx.fillStyle = this.fillColor;
+            ctx.fill();
+        }
+        if (this.strokeColor != null) {
+            ctx.strokeStyle = this.strokeColor;
+            ctx.lineWidth = this.border || 1;
+            ctx.stroke();
         }
     }
     // text
@@ -102,6 +130,12 @@ Gfx.prototype.drawBar = function(ctx, width, height) {
     var y = height * this.y;
     var x0 = -w * this.xAnchor;
     var y0 = -h * this.yAnchor;
+    this.bounds = {
+        x: x+x0,
+        y: y+y0,
+        w: w,
+        h: h
+    };
     ctx.save();
     ctx.translate(x, y);
     if (this.alpha != 1) ctx.globalAlpha = this.alpha;
@@ -121,4 +155,11 @@ Gfx.prototype.drawBar = function(ctx, width, height) {
     ctx.restore();
     this.strokeColor = stroke;
     this.fillColor = fill;
+}
+
+Gfx.prototype.isInside = function(x, y) {
+    if (this.visible && this.bounds != null) {
+        return x >= this.bounds.x && x <= this.bounds.x + this.bounds.w && y >= this.bounds.y && y <= this.bounds.y + this.bounds.h;
+    }
+    return false;
 }

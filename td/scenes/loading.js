@@ -9,10 +9,11 @@ function Loading() {
 copy(Loading.prototype, scenePrototype);
 
 Loading.prototype.isCompleted = function() {
-    return this.timer > this.loadingMinTime && (this.next == null || this.next.isLoaded());
+    return this.timer > this.loadingMinTime || (this.next != null && this.next.isLoaded());
 }
 
 Loading.prototype.setContext = function(context) {
+	this.timer = 0;
     this.loadingMinTime = context.game.loadingMinTime;
     this.showHints = context.game.loadingShowHint;
     this.hints = context.game.loadingHints;
