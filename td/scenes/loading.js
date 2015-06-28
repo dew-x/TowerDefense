@@ -9,18 +9,18 @@ function Loading() {
 copy(Loading.prototype, scenePrototype);
 
 Loading.prototype.isCompleted = function() {
-    return this.timer > this.loadingMinTime || (this.next != null && this.next.isLoaded());
+    return this.timer > this.loadingMinTime && (this.next == null || this.next.isLoaded());
 }
 
 Loading.prototype.setContext = function(context) {
-	this.timer = 0;
+    this.timer = 0;
     this.loadingMinTime = context.game.loadingMinTime;
     this.showHints = context.game.loadingShowHint;
     this.hints = context.game.loadingHints;
     this._addGfx("bg", context.game.loadingBg);
     this._addGfx("bar", context.game.loadingBar);
     if (this.showHints) this._addGfx("hint", context.game.loadingHint);
-    this.gfx["hint"].text = this.hints[randomInt(0,this.hints.length-1)];
+    this.gfx["hint"].text = this.hints[randomInt(0, this.hints.length - 1)];
 }
 
 Loading.prototype.setNext = function(next) {
@@ -30,5 +30,14 @@ Loading.prototype.setNext = function(next) {
 Loading.prototype.update = function(delta) {
     if (isNaN(this.timer)) this.timer = 0;
     this.timer = this.timer + delta;
-    this.gfx["bar"].setPercentage(Math.min(1,this.timer/this.loadingMinTime));
+    this.gfx["bar"].setPercentage(Math.min(1, this.timer / this.loadingMinTime));
+}
+
+Loading.prototype.processInput = function(input, actions) {
+    while (input.length > 0) {
+        var event = input.shift();
+        if (event.type == "end") {
+            this.timer = this.loadingMinTime;
+        }
+    }
 }
