@@ -3,6 +3,7 @@ function gfxArchetype(data) {
         // values
         mode: "normal",
         percentage: 1,
+        border: 0,
         // position
         alpha: 1,
         rotation: 0,
@@ -12,6 +13,7 @@ function gfxArchetype(data) {
         yAnchor: 0.5,
         width: 1,
         height: 1,
+        ratio: 10,
         scaleMode: "fill",
         strokeColor: null,
         fillColor: null,
@@ -26,26 +28,51 @@ function gfxArchetype(data) {
         textColor: "black",
     }
     var ranges = {
-        mode: ["rectangle","bar"],
+        mode: ["normal", "bar"],
         percentage: [
             [0, 1]
         ],
-        alpha: [[0,1]],
-        rotation: [[-Math.PI,Math.PI]],
-        x: [[0,1]],
-        y: [[0,1]],
-        xAnchor: [[0,1]],
-        yAnchor: [[0,1]],
-        width: [[0,1]],
-        height: [[0,1]],
-        scaleMode: ["fill","fit","expand"],
+        border: [
+            [0,10000],
+        ],
+        alpha: [
+            [0, 1]
+        ],
+        rotation: [
+            [-Math.PI, Math.PI]
+        ],
+        x: [
+            [0, 1]
+        ],
+        y: [
+            [0, 1]
+        ],
+        xAnchor: [
+            [0, 1]
+        ],
+        yAnchor: [
+            [0, 1]
+        ],
+        width: [
+            [0, 1]
+        ],
+        height: [
+            [0, 1]
+        ],
+        ratio: [
+            [0, 1000]
+        ],
+        scaleMode: ["fill", "fit", "expand"],
         strokeColor: "string",
         fillColor: "string",
         path: "string",
         pathBehind: "string",
         pathFront: "string",
         text: "string",
-        textMargin: [[0,1],[1,1000]],
+        textMargin: [
+            [0, 1],
+            [1, 1000]
+        ],
         textFont: "string",
         textColor: "string",
     }

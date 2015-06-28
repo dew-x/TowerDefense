@@ -25,6 +25,9 @@ function gameArchetype(data) {
             pathBehind: "rectangle",
             fillColor: "white",
             strokeColor: "black",
+            border: 2,
+            ratio: 20,
+            scaleMode: "fit",
         }),
         // sounds
         loadingsfx: null,
@@ -33,11 +36,10 @@ function gameArchetype(data) {
         loadingMinTime: [
             [0, 10000]
         ],
+        loadingShowHint: [true, false],
         loadingHints: "object",
-        loadingHint: [true, false],
         loadingBg: "object",
-        loadingBarFront: "object",
-        loadingBarBg: "object",
+        loadingBar: "object",
         loadingsfx: "object",
     }
 
