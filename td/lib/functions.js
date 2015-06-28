@@ -56,7 +56,7 @@ function checkRanges(obj, ranges) {
 function copy(target, origin) {
     for (var key in origin) {
         if (origin.hasOwnProperty(key)) {
-            if (typeof origin[key] == 'object') {
+            if (typeof origin[key] == 'object' && origin[key] != null) {
                 if (Array.isArray(origin[key])) target[key] = [];
                 else target[key] = {};
                 copy(target[key], origin[key]);

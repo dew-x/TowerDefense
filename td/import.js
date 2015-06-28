@@ -14,6 +14,7 @@
   "td/archetypes/towerArchetype.js",
   "td/archetypes/waveArchetype.js",
   // classes
+  "td/classes/camera.js",
   "td/classes/enemy.js",
   "td/classes/game.js",
   "td/classes/gfx.js",

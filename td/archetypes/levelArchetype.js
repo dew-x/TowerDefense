@@ -12,16 +12,18 @@ function levelArchetype(data) {
             x: 0.5,
             y: 0.5,
             path: "circle",
+            strokeColor: "black",
+            fillColor: "black",
         }),
         // sounds
-        
+
     }
     var ranges = {
         map: "object",
         waves: "object",
         button: "object",
     }
-    
+
     if (checkRanges(data, ranges)) {
         var result = extend(defaults, data);
         copy(this, result);

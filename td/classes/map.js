@@ -1,8 +1,8 @@
 function Map(archetype) {
-	copy(this, archetype);
+    copy(this, archetype);
 }
 
-Map.prototype.initCamera = function () {
-	var camera=new Camera();
-	return camera;
+Map.prototype.initCamera = function() {
+    var camera = new Camera();
+    return camera;
 }

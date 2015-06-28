@@ -15,8 +15,13 @@ InGame.prototype.init = function(id) {
 InGame.prototype.setContext = function(context) {
     this.level = new Level(context.levels[this.id]);
     this.map = new Map(this.level.getMap());
-    this.camera = this.map.getCamera();
-    console.log(this.level, this.map);
+    this.camera = this.map.initCamera();
+    this._addGfx("wavesBg", context.game.wavesBg);
+    this._addGfx("statusBarBg", context.game.statusBarBg);
+    this._addGfx("minimapBg", context.game.minimapBg);
+    this._addGfx("buildmenuBg", context.game.buildmenuBg);
+    this._addGfx("selectedBg", context.game.selectedBg);
+    console.log(this.level, this.map, this.gfx);
 }
 
 InGame.prototype.update = function(delta) {
@@ -24,6 +29,9 @@ InGame.prototype.update = function(delta) {
     this.timer = this.timer + delta;
 }
 InGame.prototype.draw = function() {
+    // draw game
+
+    // draw ui
     for (var i = 0; i < this.drawOrder.length; ++i) {
         this.gfx[this.drawOrder[i]].draw(this.ctx, this.width, this.height, 0, 0, this.width, this.height);
     }
@@ -40,4 +48,4 @@ InGame.prototype.processInput = function(input, actions) {
             }
         }
     }
-},
+}

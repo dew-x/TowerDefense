@@ -43,8 +43,8 @@ Gfx.prototype.drawNormal = function(ctx, width, height) {
     var x0 = -w * this.xAnchor;
     var y0 = -h * this.yAnchor;
     this.bounds = {
-        x: x+x0,
-        y: y+y0,
+        x: x + x0,
+        y: y + y0,
         w: w,
         h: h
     };
@@ -63,6 +63,7 @@ Gfx.prototype._drawObject = function(obj, ctx, x, y, w, h) {
             ctx.fillRect(x, y, w, h);
         }
         if (this.strokeColor != null) {
+            console.log(this.strokeColor);
             ctx.strokeStyle = this.strokeColor;
             ctx.lineWidth = this.border || 1;
             ctx.strokeRect(x, y, w, h);
@@ -131,8 +132,8 @@ Gfx.prototype.drawBar = function(ctx, width, height) {
     var x0 = -w * this.xAnchor;
     var y0 = -h * this.yAnchor;
     this.bounds = {
-        x: x+x0,
-        y: y+y0,
+        x: x + x0,
+        y: y + y0,
         w: w,
         h: h
     };
