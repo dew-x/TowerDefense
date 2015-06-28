@@ -28,6 +28,9 @@ function gameArchetype(data) {
             border: 2,
             ratio: 20,
             scaleMode: "fit",
+            text: "Loading",
+            textMargin: 0.2,
+            textColor: "white",
         }),
         // sounds
         loadingsfx: null,

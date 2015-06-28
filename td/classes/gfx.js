@@ -14,11 +14,13 @@ function Gfx(archetype) {
  * @return      none
  */
 Gfx.prototype.draw = function(ctx, width, height, x0, y0, x1, y1) {
-    if (this.mode == "normal") {
-        this.drawNormal(ctx, width, height);
-    } else if (this.mode == "bar") {
-        this.drawBar(ctx, width, height);
-    }
+	if (this.visible) {
+	    if (this.mode == "normal") {
+	        this.drawNormal(ctx, width, height);
+	    } else if (this.mode == "bar") {
+	        this.drawBar(ctx, width, height);
+	    }
+	}
 }
 
 Gfx.prototype.setPercentage = function(perc) {
@@ -59,6 +61,29 @@ Gfx.prototype._drawObject = function(obj, ctx, x, y, w, h) {
             ctx.strokeRect(x, y, w, h);
         }
     }
+    // text
+    this._drawText(ctx, x, y, w, h);
+}
+
+Gfx.prototype._drawText = function(ctx, x, y, w, h) {
+    if (this.text != "") {
+        var hMargin = (Array.isArray(this.textMargin)) ? this.textMargin[0] : this.textMargin;
+        var vMargin = (Array.isArray(this.textMargin)) ? this.textMargin[1] : this.textMargin;
+        var fontSize = Math.floor(h * (1 - vMargin * 2));
+        var maxWidth = Math.floor(w * (1 - hMargin * 2));
+        ctx.font = fontSize + "px " + this.textFont;
+        var textWidth = ctx.measureText(this.text).width;
+        // risky
+        while (textWidth > maxWidth) {
+            fontSize = Math.floor(fontSize * (maxWidth / textWidth));
+            ctx.font = fontSize + "px " + this.textFont;
+            textWidth = ctx.measureText(this.text).width;
+        }
+        ctx.fillStyle = this.textColor;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle"
+        ctx.fillText(this.text, x + w / 2, y + h / 2);
+    }
 }
 
 Gfx.prototype.drawBar = function(ctx, width, height) {
@@ -83,6 +108,9 @@ Gfx.prototype.drawBar = function(ctx, width, height) {
     if (this.rotation != 0) ctx.rotate(this.rotation);
     if (stroke == null || fill == null) {
         // todo
+        this._drawObject(this.pathBehind, ctx, x0, y0, w, h);
+        this._drawObject(this.path, ctx, x0, y0, w, h);
+        this._drawObject(this.pathFront, ctx, x0, y0, w, h);
     } else {
         this.strokeColor = null;
         this.fillColor = stroke;

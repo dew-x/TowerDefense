@@ -17,6 +17,7 @@ function gfxArchetype(data) {
         scaleMode: "fill",
         strokeColor: null,
         fillColor: null,
+        visible: true,
         // graphics
         path: null,
         pathBehind: null,
@@ -33,7 +34,7 @@ function gfxArchetype(data) {
             [0, 1]
         ],
         border: [
-            [0,10000],
+            [0, 10000],
         ],
         alpha: [
             [0, 1]
@@ -65,13 +66,13 @@ function gfxArchetype(data) {
         scaleMode: ["fill", "fit", "expand"],
         strokeColor: "string",
         fillColor: "string",
+        visible: [true, false],
         path: "string",
         pathBehind: "string",
         pathFront: "string",
         text: "string",
         textMargin: [
             [0, 1],
-            [1, 1000]
         ],
         textFont: "string",
         textColor: "string",
