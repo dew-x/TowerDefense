@@ -320,7 +320,9 @@ TowerDefense.prototype._insertWave = function(element, errors) {
 }
 
 TowerDefense.prototype._insertMap = function(element, errors) {
-    var dependencies = {}
+    var dependencies = {
+        bg: this.data.gfxs,
+    }
     var parent = mapArchetype;
     var target = this.data.maps;
     return this._insertElement(element, target, parent, dependencies, errors);
