@@ -9,26 +9,22 @@ function gameArchetype(data) {
         ],
         // graphics
         loadingBg: new gfxArchetype({
-            mode: "bg",
-            drawFunction: function(ctx, width, height, x0, y0, x1, y1) {
-                ctx.fillStyle = "silver";
-                ctx.fillRect(x0, y0, x1, y1);
-            }
+            path: "rectangle",
+            fillColor: "silver",
+            text: "libTD v0.0.1",
+            textMargin: 0.2,
         }),
         loadingBar: new gfxArchetype({
+            width: 0.5,
+            height: 0.1,
+            x: 0.5,
+            y: 0.8,
             mode: "bar",
             percentage: 0,
-            drawFunction: function(ctx, width, height, x0, y0, x1, y1) {
-                var x0=Math.round(width*0.25);
-                var y0=Math.round(height*0.8);
-                var w=Math.round(width*0.5);
-                var h=Math.round(height*0.1);
-                var border=2;
-                ctx.fillStyle = "black";
-                ctx.fillRect(x0,y0,w,h);
-                ctx.fillStyle = "white";
-                ctx.fillRect(x0+border, y0+border, (w-border*2) * this.percentage, h-border*2);
-            }
+            path: "rectangle",
+            pathBehind: "rectangle",
+            fillColor: "white",
+            strokeColor: "black",
         }),
         // sounds
         loadingsfx: null,
