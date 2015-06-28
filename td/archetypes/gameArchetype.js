@@ -4,8 +4,8 @@ function gameArchetype(data) {
         loadingMinTime: 3000,
         loadingShowHint: true,
         loadingHints: [
-            "aaaaaaaaaaaaaaaaaaaaaa",
-            "bbbbbbbbbbbbbbbbbbbbbb",
+            "This project is inspired by Warcraft III TD maps",
+            "You can get the source in https://github.com/dew-x/TowerDefense/",
         ],
         // graphics
         loadingBg: new gfxArchetype({
@@ -31,6 +31,12 @@ function gameArchetype(data) {
             text: "Loading",
             textMargin: 0.2,
             textColor: "white",
+        }),
+        loadingHint: new gfxArchetype({
+            text: "",
+            height: 0.05,
+            y: 0.9,
+            textMargin: 0.2,
         }),
         // sounds
         loadingsfx: null,

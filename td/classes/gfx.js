@@ -14,13 +14,13 @@ function Gfx(archetype) {
  * @return      none
  */
 Gfx.prototype.draw = function(ctx, width, height, x0, y0, x1, y1) {
-	if (this.visible) {
-	    if (this.mode == "normal") {
-	        this.drawNormal(ctx, width, height);
-	    } else if (this.mode == "bar") {
-	        this.drawBar(ctx, width, height);
-	    }
-	}
+    if (this.visible) {
+        if (this.mode == "normal") {
+            this.drawNormal(ctx, width, height);
+        } else if (this.mode == "bar") {
+            this.drawBar(ctx, width, height);
+        }
+    }
 }
 
 Gfx.prototype.setPercentage = function(perc) {

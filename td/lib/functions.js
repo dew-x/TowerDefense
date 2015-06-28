@@ -64,3 +64,7 @@ function copy(target, origin) {
 function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
 }
+
+function randomInt(min, max) {
+    return min+Math.floor(Math.random()*(max-min+1));
+}

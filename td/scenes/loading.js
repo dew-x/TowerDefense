@@ -18,6 +18,8 @@ Loading.prototype.setContext = function(context) {
     this.hints = context.game.loadingHints;
     this._addGfx("bg", context.game.loadingBg);
     this._addGfx("bar", context.game.loadingBar);
+    if (this.showHints) this._addGfx("hint", context.game.loadingHint);
+    this.gfx["hint"].text = this.hints[randomInt(0,this.hints.length-1)];
 }
 
 Loading.prototype.setNext = function(next) {
