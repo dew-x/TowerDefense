@@ -45,15 +45,15 @@ var scenePrototype = {
         return true;
     },
     loadingPercentage: function() {
-    	return 1;
+        return 1;
     },
     isCompleted: function() {
         return true;
     },
-    _addGfx: function(key, archetype, onClick) {
+    _addGfx: function(key, archetype, onClick, onlyLoad) {
         if (!this.gfx.hasOwnProperty(key) && archetype != null) {
             this.gfx[key] = new Gfx(archetype);
-            this.drawOrder.push(key);
+            if (typeof onlyLoad == 'undefined') this.drawOrder.push(key);
             if (typeof onClick !== 'undefined') this.onClick[key] = onClick;
         }
     }

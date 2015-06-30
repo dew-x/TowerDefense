@@ -24,6 +24,17 @@ Gfx.prototype.draw = function(ctx, width, height, x0, y0, x1, y1) {
     }
 }
 
+Gfx.prototype.drawWithCamera = function(ctx, width, height, camera) {
+    var rect=camera.getWindow(width,height);
+    if (this.visible) {
+        if (this.mode == "normal") {
+            this.drawNormal(ctx, width, height);
+        } else if (this.mode == "bar") {
+            this.drawBar(ctx, width, height);
+        }
+    }
+}
+
 Gfx.prototype.setPercentage = function(perc) {
     this.percentage = clamp(perc, 0, 1);
 }
@@ -89,6 +100,8 @@ Gfx.prototype._drawObject = function(obj, ctx, x, y, w, h) {
             ctx.lineWidth = this.border || 1;
             ctx.stroke();
         }
+    } else if (obj == "grid") {
+
     }
     // text
     this._drawText(ctx, x, y, w, h);

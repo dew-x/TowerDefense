@@ -74,3 +74,8 @@ function clamp(value, min, max) {
 function randomInt(min, max) {
     return min + Math.floor(Math.random() * (max - min + 1));
 }
+
+function map(val, lb, hb, lr, hr) {
+    if (hb==lb) return 0;
+    return ((val - lb) / (hb - lb)) * (hr - lr) + lr;
+}
