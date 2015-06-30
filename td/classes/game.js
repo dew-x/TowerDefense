@@ -87,7 +87,7 @@ Game.prototype._mousedown = function(event) {
         type: "begin",
         x: offsetX,
         y: offsetY,
-        id: 1,
+        id: -1,
     });
 }
 
@@ -101,7 +101,7 @@ Game.prototype._mousemove = function(event) {
         type: "move",
         x: offsetX,
         y: offsetY,
-        id: 1,
+        id: -1,
     });
 }
 
@@ -115,7 +115,7 @@ Game.prototype._mouseup = function(event) {
         type: "end",
         x: offsetX,
         y: offsetY,
-        id: 1,
+        id: -1,
     });
 }
 

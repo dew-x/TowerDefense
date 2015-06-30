@@ -3,6 +3,7 @@ function InGame() {
     this.id = null;
     this.level = null;
     this.camera = null;
+    this.pressedKeys = {};
 }
 
 copy(InGame.prototype, scenePrototype);
@@ -33,6 +34,11 @@ InGame.prototype.setContext = function(context) {
 InGame.prototype.update = function(delta) {
     if (isNaN(this.timer)) this.timer = 0;
     this.timer = this.timer + delta;
+    //console.log(this._isKeyPressed(37),this._isKeyPressed(38),this._isKeyPressed(39),this._isKeyPressed(40));
+    if (this._isKeyPressed(39)) this.camera.move(1,0);
+    if (this._isKeyPressed(37)) this.camera.move(-1,0);
+    if (this._isKeyPressed(40)) this.camera.move(0,1);
+    if (this._isKeyPressed(38)) this.camera.move(0,-1);
 }
 
 InGame.prototype.draw = function() {
@@ -44,35 +50,38 @@ InGame.prototype.draw = function() {
     }
 }
 
+InGame.prototype.setWindow = function(width, height) {
+    this.width = width;
+    this.height = height;
+    if (this.camera != null) {
+        var screenRect = {
+            x: 0,
+            y: 0,
+            w: this.width,
+            h: this.height,
+        }
+        this.camera.updateScreen(screenRect);
+    }
+}
+
 InGame.prototype._drawGame = function() {
     this._drawGrid();
 }
 
 InGame.prototype._drawGrid = function() {
     var rect = this.camera.getWindow();
+    // bg
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.width, this.height);
     // horitzontals
     for (var i = Math.ceil(rect.y); i < rect.y + rect.h; ++i) {
         var y = this.camera.y2screen(i, this.height);
-        this.ctx.beginPath();
-        this.ctx.moveTo(0, y);
-        this.ctx.lineTo(this.width, y);
-        this.ctx.closePath();
-        this.ctx.strokeColor = "black";
-        this.ctx.lineWidth = 1;
-        this.ctx.stroke();
+        doLine(this.ctx, 0, y, this.width, y, "black", 1);
     }
     // verticals
     for (var i = Math.ceil(rect.x); i < rect.x + rect.w; ++i) {
         var x = this.camera.x2screen(i, this.width);
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, 0);
-        this.ctx.lineTo(x, this.height);
-        this.ctx.closePath();
-        this.ctx.strokeColor = "black";
-        this.ctx.lineWidth = 1;
-        this.ctx.stroke();
+        doLine(this.ctx, x, 0, x, this.height, "black", 1);
     }
 }
 
@@ -88,6 +97,18 @@ InGame.prototype.processInput = function(input, actions) {
             }
         } else if (event.type == "wheel") {
             this.camera.doZoom(event.delta);
+        } else if (event.type == "keyDown") {
+            if (!this.pressedKeys.hasOwnProperty(event.key) || !this.pressedKeys[event.key]) {
+                this.pressedKeys[event.key]=true;
+            }
+        } else if (event.type == "keyUp") {
+            if (!this.pressedKeys.hasOwnProperty(event.key) || this.pressedKeys[event.key]) {
+                this.pressedKeys[event.key]=false;
+            }
         }
     }
+}
+
+InGame.prototype._isKeyPressed = function (key) {
+    return this.pressedKeys.hasOwnProperty(key)&&this.pressedKeys[key];
 }

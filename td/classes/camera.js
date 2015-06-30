@@ -15,6 +15,7 @@ function Camera(screenRect, mapWidth, mapHeight) {
     this.miny = 0;
     this.maxy = 0;
     this.zoomRatio = 10;
+    this.moveSpeed = 10;
     this.window = null;
 
     this.updateScreen(screenRect);
@@ -27,18 +28,28 @@ Camera.prototype.updateScreen = function(screenRect) {
     this.sh = screenRect.h;
     this.maxZoom = Math.min(this.sw, this.sh);
     this.minZoom = Math.max(this.sw / this.width, this.sh / this.height);
-    if (this.zoom == -1) this.zoom = (this.minZoom + this.maxZoom) / 2;
+    if (this.zoom == -1) this.zoom = this.minZoom;
     else clamp(this.zoom, this.minZoom, this.maxZoom);
     this.doZoom(0);
-    
 }
 
 Camera.prototype.doZoom = function(delta) {
     this.zoom = clamp(this.zoom * ((this.zoomRatio + delta) / this.zoomRatio), this.minZoom, this.maxZoom);
-    this.minx = (this.width - this.sw / this.zoom) / 2;
-    this.maxx = this.width - (this.width - this.sw / this.zoom) / 2;
-    this.miny = (this.height - this.sh / this.zoom) / 2;
-    this.maxy = this.height - (this.height - this.sh / this.zoom) / 2;
+    this.minx = (this.sw / this.zoom) / 2;
+    this.maxx = this.width - (this.sw / this.zoom) / 2;
+    this.miny = (this.sh / this.zoom) / 2;
+    this.maxy = this.height - (this.sh / this.zoom) / 2;
+    this.window = {
+        x: this.cx - (this.sw / this.zoom) / 2,
+        y: this.cy - (this.sh / this.zoom) / 2,
+        w: this.sw / this.zoom,
+        h: this.sh / this.zoom,
+    };
+}
+
+Camera.prototype.move = function(dx, dy) {
+    this.cx = clamp(this.cx + dx / this.zoom * this.moveSpeed, this.minx, this.maxx);
+    this.cy = clamp(this.cy + dy / this.zoom * this.moveSpeed, this.miny, this.maxy);
     this.window = {
         x: this.cx - (this.sw / this.zoom) / 2,
         y: this.cy - (this.sh / this.zoom) / 2,
@@ -52,9 +63,9 @@ Camera.prototype.getWindow = function() {
 }
 
 Camera.prototype.x2screen = function(x) {
-    return map(x, this.window.x, this.window.x+this.window.w, 0, this.sw);
+    return map(x, this.window.x, this.window.x + this.window.w, 0, this.sw);
 }
 
 Camera.prototype.y2screen = function(y) {
-    return map(y, this.window.y, this.window.y+this.window.h, 0, this.sh);
+    return map(y, this.window.y, this.window.y + this.window.h, 0, this.sh);
 }
