@@ -27,7 +27,15 @@ InGame.prototype.setContext = function(context) {
         w: this.width,
         h: this.height,
     }
-    this.camera = new Camera(screenRect, this.map.cols, this.map.rows);
+    var rectList = [
+        this.gfx["wavesBg"].getRect(this.width, this.height),
+        this.gfx["statusBarBg"].getRect(this.width, this.height),
+        this.gfx["minimapBg"].getRect(this.width, this.height),
+        this.gfx["buildmenuBg"].getRect(this.width, this.height),
+        this.gfx["selectedBg"].getRect(this.width, this.height),
+    ];
+    var gameRect = minimumFillingRectangle(screenRect, rectList);
+    this.camera = new Camera(gameRect, this.map.cols, this.map.rows);
     console.log(this.level, this.map, this.gfx, this.camera);
 }
 
@@ -35,10 +43,10 @@ InGame.prototype.update = function(delta) {
     if (isNaN(this.timer)) this.timer = 0;
     this.timer = this.timer + delta;
     //console.log(this._isKeyPressed(37),this._isKeyPressed(38),this._isKeyPressed(39),this._isKeyPressed(40));
-    if (this._isKeyPressed(39)) this.camera.move(1,0);
-    if (this._isKeyPressed(37)) this.camera.move(-1,0);
-    if (this._isKeyPressed(40)) this.camera.move(0,1);
-    if (this._isKeyPressed(38)) this.camera.move(0,-1);
+    if (this._isKeyPressed(39)) this.camera.move(1, 0);
+    if (this._isKeyPressed(37)) this.camera.move(-1, 0);
+    if (this._isKeyPressed(40)) this.camera.move(0, 1);
+    if (this._isKeyPressed(38)) this.camera.move(0, -1);
 }
 
 InGame.prototype.draw = function() {
@@ -73,6 +81,8 @@ InGame.prototype._drawGrid = function() {
     // bg
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.width, this.height);
+    this.ctx.save();
+    this.ctx.translate(this.camera.sx, this.camera.sy);
     // horitzontals
     for (var i = Math.ceil(rect.y); i < rect.y + rect.h; ++i) {
         var y = this.camera.y2screen(i, this.height);
@@ -83,6 +93,7 @@ InGame.prototype._drawGrid = function() {
         var x = this.camera.x2screen(i, this.width);
         doLine(this.ctx, x, 0, x, this.height, "black", 1);
     }
+    this.ctx.restore();
 }
 
 InGame.prototype.processInput = function(input, actions) {
@@ -99,16 +110,16 @@ InGame.prototype.processInput = function(input, actions) {
             this.camera.doZoom(event.delta);
         } else if (event.type == "keyDown") {
             if (!this.pressedKeys.hasOwnProperty(event.key) || !this.pressedKeys[event.key]) {
-                this.pressedKeys[event.key]=true;
+                this.pressedKeys[event.key] = true;
             }
         } else if (event.type == "keyUp") {
             if (!this.pressedKeys.hasOwnProperty(event.key) || this.pressedKeys[event.key]) {
-                this.pressedKeys[event.key]=false;
+                this.pressedKeys[event.key] = false;
             }
         }
     }
 }
 
-InGame.prototype._isKeyPressed = function (key) {
-    return this.pressedKeys.hasOwnProperty(key)&&this.pressedKeys[key];
+InGame.prototype._isKeyPressed = function(key) {
+    return this.pressedKeys.hasOwnProperty(key) && this.pressedKeys[key];
 }

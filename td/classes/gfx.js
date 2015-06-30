@@ -177,3 +177,28 @@ Gfx.prototype.isInside = function(x, y) {
     }
     return false;
 }
+
+Gfx.prototype.getRect = function (width,height) {
+    if (this.bounds==null) {
+        var w = width * this.width;
+        var h = height * this.height;
+        if (this.scaleMode == "fit") {
+            if (w / h > this.ratio) w = h * this.ratio;
+            else h = w / this.ratio;
+        } else if (this.scaleMode == "expand") {
+            if (w / h > this.ratio) h = w / this.ratio;
+            else w = h * this.ratio;
+        }
+        var x = width * this.x;
+        var y = height * this.y;
+        var x0 = -w * this.xAnchor;
+        var y0 = -h * this.yAnchor;
+        this.bounds = {
+            x: x + x0,
+            y: y + y0,
+            w: w,
+            h: h
+        };
+    } 
+    return this.bounds;
+}

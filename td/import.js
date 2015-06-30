@@ -4,6 +4,7 @@
   "td/lib/functions.js",
   "td/lib/compatibility.js",
   "td/lib/gfx.js",
+  "td/lib/geometry.js",
   // archetypes
   "td/archetypes/enemyArchetype.js",
   "td/archetypes/gameArchetype.js",
