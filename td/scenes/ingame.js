@@ -15,12 +15,18 @@ InGame.prototype.init = function(id) {
 InGame.prototype.setContext = function(context) {
     this.level = new Level(context.levels[this.id]);
     this.map = new Map(this.level.getMap());
-    this.camera = this.map.initCamera(this.width, this.height);
     this._addGfx("wavesBg", context.game.wavesBg);
     this._addGfx("statusBarBg", context.game.statusBarBg);
     this._addGfx("minimapBg", context.game.minimapBg);
     this._addGfx("buildmenuBg", context.game.buildmenuBg);
     this._addGfx("selectedBg", context.game.selectedBg);
+    var screenRect = {
+        x: 0,
+        y: 0,
+        w: this.width,
+        h: this.height,
+    }
+    this.camera = new Camera(screenRect, this.map.cols, this.map.rows);
     console.log(this.level, this.map, this.gfx, this.camera);
 }
 
@@ -43,13 +49,11 @@ InGame.prototype._drawGame = function() {
 }
 
 InGame.prototype._drawGrid = function() {
-    var rect = this.camera.getWindow(this.width, this.height);
-    if (this.timer < 100) console.log(rect);
-    var sqSize = this.map.sqSize;
+    var rect = this.camera.getWindow();
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.width, this.height);
     // horitzontals
-    for (var i = Math.ceil(rect.y / sqSize) * sqSize; i < rect.y + rect.h; i += sqSize) {
+    for (var i = Math.ceil(rect.y); i < rect.y + rect.h; ++i) {
         var y = this.camera.y2screen(i, this.height);
         this.ctx.beginPath();
         this.ctx.moveTo(0, y);
@@ -60,7 +64,7 @@ InGame.prototype._drawGrid = function() {
         this.ctx.stroke();
     }
     // verticals
-    for (var i = Math.ceil(rect.x / sqSize) * sqSize; i < rect.x + rect.w; i += sqSize) {
+    for (var i = Math.ceil(rect.x); i < rect.x + rect.w; ++i) {
         var x = this.camera.x2screen(i, this.width);
         this.ctx.beginPath();
         this.ctx.moveTo(x, 0);
@@ -82,7 +86,7 @@ InGame.prototype.processInput = function(input, actions) {
                     actions.push(this.onClick[key]);
                 }
             }
-        } else if (event.type=="wheel") {
+        } else if (event.type == "wheel") {
             this.camera.doZoom(event.delta);
         }
     }
