@@ -68,7 +68,21 @@ InGame.prototype.setWindow = function(width, height) {
             w: this.width,
             h: this.height,
         }
-        this.camera.updateScreen(screenRect);
+        var screenRect = {
+            x: 0,
+            y: 0,
+            w: this.width,
+            h: this.height,
+        }
+        var rectList = [
+            this.gfx["wavesBg"].getRect(this.width, this.height),
+            this.gfx["statusBarBg"].getRect(this.width, this.height),
+            this.gfx["minimapBg"].getRect(this.width, this.height),
+            this.gfx["buildmenuBg"].getRect(this.width, this.height),
+            this.gfx["selectedBg"].getRect(this.width, this.height),
+        ];
+        var gameRect = minimumFillingRectangle(screenRect, rectList);
+        this.camera.updateScreen(gameRect);
     }
 }
 
@@ -78,20 +92,20 @@ InGame.prototype._drawGame = function() {
 
 InGame.prototype._drawGrid = function() {
     var rect = this.camera.getWindow();
-    // bg
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0, 0, this.width, this.height);
     this.ctx.save();
+    // bg
     this.ctx.translate(this.camera.sx, this.camera.sy);
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(0, 0, this.camera.sw, this.camera.sh);
     // horitzontals
     for (var i = Math.ceil(rect.y); i < rect.y + rect.h; ++i) {
-        var y = this.camera.y2screen(i, this.height);
-        doLine(this.ctx, 0, y, this.width, y, "black", 1);
+        var y = this.camera.y2screen(i);
+        doLine(this.ctx, 0, y, this.camera.sw, y, "black", 1);
     }
     // verticals
     for (var i = Math.ceil(rect.x); i < rect.x + rect.w; ++i) {
-        var x = this.camera.x2screen(i, this.width);
-        doLine(this.ctx, x, 0, x, this.height, "black", 1);
+        var x = this.camera.x2screen(i);
+        doLine(this.ctx, x, 0, x, this.camera.sh, "black", 1);
     }
     this.ctx.restore();
 }
