@@ -9,7 +9,10 @@ function towerArchetype(data) {
         rotateOnAim: false,
         projectyle: null,
         // graphics
-        gfx: null,
+        gfx: new gfxArchetype({
+            path:"rectangle",
+            fillColor: "blue",
+        }),
         // sounds
         placesfx: null,
     }

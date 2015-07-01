@@ -4,6 +4,7 @@ function InGame() {
     this.level = null;
     this.camera = null;
     this.pressedKeys = {};
+    this.towers = [];
 }
 
 copy(InGame.prototype, scenePrototype);
@@ -16,11 +17,16 @@ InGame.prototype.init = function(id) {
 InGame.prototype.setContext = function(context) {
     this.level = new Level(context.levels[this.id]);
     this.map = new Map(this.level.getMap());
+    this.towers = [];
     this._addGfx("wavesBg", context.game.wavesBg);
     this._addGfx("statusBarBg", context.game.statusBarBg);
     this._addGfx("minimapBg", context.game.minimapBg);
     this._addGfx("buildmenuBg", context.game.buildmenuBg);
     this._addGfx("selectedBg", context.game.selectedBg);
+    for (var key in context.towers) {
+        this._addGfx("tower_"+this.towers.length.toString(),context.towers[key].gfx,null,false);
+        this.towers.push(context.towers[key]);
+    }
     var screenRect = {
         x: 0,
         y: 0,

@@ -1,12 +1,13 @@
 function Camera(screenRect, mapWidth, mapHeight) {
-    this.sx = 0;
-    this.sy = 0;
-    this.sw = 0;
-    this.sh = 0;
     this.width = mapWidth;
     this.height = mapHeight;
     this.cx = mapWidth / 2;
     this.cy = mapHeight / 2;
+
+    this.sx = 0;
+    this.sy = 0;
+    this.sw = 0;
+    this.sh = 0;
     this.minZoom = 0;
     this.maxZoom = 0;
     this.zoom = -1;
